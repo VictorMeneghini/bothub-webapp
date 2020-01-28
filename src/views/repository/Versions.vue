@@ -16,13 +16,16 @@
         <p> Add, edit and choose versions of your bot intelligence. </p>
       </div>
       <section>
-        <h1>oi</h1>
         <b-table
           :data="data"
-          :paginated="isPaginated"
+          paginated
           :per-page="perPage"
-          :current-page.sync="currentPage"
+          :current-page="2"
           :pagination-simple="isPaginationSimple"
+          backend-pagination
+          :loading="list.loading"
+          @page-change="onPageChange"
+          :total="totalPagination"
         >
           <template slot-scope="props">
             <b-table-column
@@ -34,8 +37,8 @@
               numeric>
               <span
                 class="versions__table__version-number"
-                @click="handleVersion(props.row.id, props.row.name)">
-                {{ props.row.name }}
+                @click="handleVersion(props.row.id, props.row.data.name)">
+                {{ props.row.data.name }}
               </span>
             </b-table-column>
             <b-table-column
@@ -43,14 +46,14 @@
               field="last_update"
               label="Last update"
               sortable >
-              {{ props.row.last_update | moment('from') }}
+              {{ props.row.data.last_update | moment('from') }}
             </b-table-column>
             <b-table-column
               centered
               field="created_at"
               label="Date Created"
               sortable >
-              {{ props.row.created_at | moment('from') }}
+              {{ props.row.data.created_at | moment('from') }}
             </b-table-column>
             <b-table-column
               centered
@@ -58,10 +61,10 @@
               label="">
               <div class="versions__table__buttons-wrapper">
                 <b-button
-                  :type="props.row.is_default ? 'is-primary': 'is-light'"
+                  :type="props.row.data.is_default ? 'is-primary': 'is-light'"
                   class="is-small"
                   rounded
-                  @click="handleDefaultVersion(props.row.id, props.row.name)">Main</b-button>
+                  @click="handleDefaultVersion(props.row.data.id, props.row.data.name)">Main</b-button>
                 <b-icon icon="pencil"/>
                 <b-icon icon="delete"/>
               </div>
@@ -88,11 +91,12 @@ export default {
   data() {
     return {
       data: [],
-      isPaginated: true,
       isPaginationSimple: false,
       currentPage: 1,
-      perPage: 5,
+      perPage: 20,
+      totalPagination: 0,
       versions: [],
+      list: []
     };
   },
   mounted() {
@@ -104,10 +108,16 @@ export default {
       'setRepositoryVersion',
       'setDefaultVersion',
     ]),
-
+    onPageChange() {
+      this.list.next();
+    },
     async updateVersions() {
-      const response = await this.getVersions(this.repository.uuid);
-      this.data = response.data.results;
+      this.list = await this.getVersions(this.repository.uuid);
+      this.data = await this.list.next();
+      this.totalPagination = this.list.count;
+    },
+    async teste() {
+      await this.list.next();
     },
     handleVersion(id, name) {
       this.setRepositoryVersion({

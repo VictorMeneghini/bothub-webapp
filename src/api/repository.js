@@ -13,7 +13,7 @@ export default {
     return new utils.List('/repository/repositories/');
   },
   getVersions(repositoryUuid) {
-    return request.$http.get(`/v2/repository/version/?repository=${repositoryUuid}`);
+    return new utils.ListTable(`/v2/repository/version/?repository=${repositoryUuid}`);
   },
   getFirstFiveVersions(repositoryUuid) {
     return request.$http.get(`/v2/repository/version/?repository=${repositoryUuid}&limit=5`);
