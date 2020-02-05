@@ -5,12 +5,64 @@ import utils from './utils';
 
 
 export default {
+
   async getNewSchema() {
     const { data } = await request.$http.options('/v2/repository/repository-info/');
     return data.actions.POST;
   },
   getAll() {
     return new utils.List('/repository/repositories/');
+  },
+  getVersions(query) {
+    const queryString = qs.stringify(query);
+    return request.$http.get(`/v2/repository/version/?${queryString}`);
+  },
+  searchLogs(query) {
+    const queryString = qs.stringify(query);
+    return request.$http.get(`/v2/repository/log/?${queryString}`);
+  },
+  makeVersionDefault(repositoryUUID, versionUUID) {
+    return request.$http.patch(
+      `/v2/repository/version/${versionUUID}/`,
+      {
+        id: versionUUID,
+        repository: repositoryUUID,
+      },
+    );
+  },
+  addNewVersion(repositoryUUID, versionUUID, name) {
+    return request.$http.post(
+      '/v2/repository/version/',
+      {
+        id: versionUUID,
+        name,
+        repository: repositoryUUID,
+      },
+    );
+  },
+  editVersion(repositoryUUID, versionUUID, name) {
+    return request.$http.patch(
+      `/v2/repository/version/${versionUUID}/`,
+      {
+        id: versionUUID,
+        name,
+        repository: repositoryUUID,
+      },
+    );
+  },
+  deleteVersion(repositoryUUID, versionUUID) {
+    return request.$http.delete(`/v2/repository/version/${versionUUID}`);
+  },
+  getFirstFiveVersions(repositoryUuid) {
+    return request.$http.get(`/v2/repository/version/?repository=${repositoryUuid}&limit=5`);
+  },
+  setDefaultVersion(repositoryUuid, id, name) {
+    return request.$http.patch(`/v2/repository/version/${id}/`,
+      {
+        repository: repositoryUuid,
+        id,
+        name,
+      });
   },
   search(query) {
     const queryString = qs.stringify(query);

@@ -12,9 +12,13 @@ import RepositoryTranslations from '@/views/repository/Translations';
 import RepositorySettings from '@/views/repository/Settings';
 import RepositoryAnalyzeText from '@/views/repository/AnalyzeText';
 import RepositoryEvaluate from '@/views/repository/Evaluate';
+import RepositoryVersions from '@/views/repository/Versions';
+import RepositoryLog from '@/views/repository/Log';
 import NotFound from '@/views/NotFound';
 import SafariAlert from '@/views/SafariAlert';
 import store from '../store';
+
+import DashboardLayout from '@/layout/dashboard/DashboardLayout';
 
 
 Vue.use(Router);
@@ -71,39 +75,56 @@ export default new Router({
       },
     },
     {
-      path: '/:ownerNickname/:slug/',
-      name: 'repository-summary',
-      component: RepositoryHome,
-    },
-    {
-      path: '/:ownerNickname/:slug/training/',
-      name: 'repository-training',
-      component: RepositoryTrainings,
-    },
-    {
-      path: '/:ownerNickname/:slug/translate/',
-      name: 'repository-translate',
-      component: RepositoryTranslate,
-    },
-    {
-      path: '/:ownerNickname/:slug/translations/',
-      name: 'repository-translations-status',
-      component: RepositoryTranslations,
-    },
-    {
-      path: '/:ownerNickname/:slug/Integration/',
-      name: 'repository-integration',
-      component: RepositoryAnalyzeText,
-    },
-    {
-      path: '/:ownerNickname/:slug/settings/',
-      name: 'repository-settings',
-      component: RepositorySettings,
-    },
-    {
-      path: '/:ownerNickname/:slug/evaluate/',
-      name: 'repository-test',
-      component: RepositoryEvaluate,
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardLayout,
+      children: [
+        {
+          path: ':ownerNickname/:slug/',
+          name: 'repository-summary',
+          component: RepositoryHome,
+        },
+        {
+          path: ':ownerNickname/:slug/training/',
+          name: 'repository-training',
+          component: RepositoryTrainings,
+        },
+        {
+          path: ':ownerNickname/:slug/translate/',
+          name: 'repository-translate',
+          component: RepositoryTranslate,
+        },
+        {
+          path: ':ownerNickname/:slug/translations/',
+          name: 'repository-translations-status',
+          component: RepositoryTranslations,
+        },
+        {
+          path: ':ownerNickname/:slug/Integration/',
+          name: 'repository-integration',
+          component: RepositoryAnalyzeText,
+        },
+        {
+          path: ':ownerNickname/:slug/settings/',
+          name: 'repository-settings',
+          component: RepositorySettings,
+        },
+        {
+          path: ':ownerNickname/:slug/evaluate/',
+          name: 'repository-test',
+          component: RepositoryEvaluate,
+        },
+        {
+          path: ':ownerNickname/:slug/versions/',
+          name: 'repository-versions',
+          component: RepositoryVersions,
+        },
+        {
+          path: ':ownerNickname/:slug/log/',
+          name: 'repository-log',
+          component: RepositoryLog,
+        },
+      ],
     },
     {
       path: '*',

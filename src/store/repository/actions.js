@@ -4,11 +4,27 @@ import TYPES from '../types';
 
 
 export default {
+
+
   async getNewRepositorySchema() {
     const response = await repository.getNewSchema();
     return response;
   },
-
+  getVersions(store, query) {
+    return repository.getVersions(query);
+  },
+  getFirstFiveVersions(store, repositoryUuid) {
+    return repository.getFirstFiveVersions(repositoryUuid);
+  },
+  setDefaultVersion(store, { repositoryUuid, id, name }) {
+    return repository.setDefaultVersion(repositoryUuid, id, name);
+  },
+  deleteVersion(store, id) {
+    return repository.deleteVersion(id);
+  },
+  async addNewVersion(store, { repositoryUUID, versionUUID, name }) {
+    return repository.addNewVersion(repositoryUUID, versionUUID, name);
+  },
   getAllRepositories() {
     /* istanbul ignore next */
     return repository.getAll();
@@ -24,6 +40,9 @@ export default {
   trainRepository(store, { repositoryUUID }) {
     /* istanbul ignore next */
     return repository.train(repositoryUUID);
+  },
+  searchLogs(store, { repositoryUUID, query }) {
+    return repository.search(repositoryUUID, query);
   },
   analyzeText(store, {
     repositoryUUID, language, text,
@@ -125,5 +144,8 @@ export default {
   },
   async setRepositoryRelatedUuid({ commit }, payload) {
     await commit(TYPES.SET_REPOSITORY_RELATED_UUID, payload);
+  },
+  setRepositoryVersion({ commit }, payload) {
+    commit('setRepositoryVersion', payload);
   },
 };

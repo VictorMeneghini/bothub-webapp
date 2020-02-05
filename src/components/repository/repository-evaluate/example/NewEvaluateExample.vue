@@ -110,6 +110,7 @@ export default {
     ...mapState({
       repository: state => state.Repository.selectedRepository,
       language: state => state.Repository.evaluateLanguage,
+      repositoryVersion: state => state.Repository.repositoryVersion,
     }),
     validationErrors() {
       const errors = [];
@@ -205,10 +206,12 @@ export default {
       if (this.$refs.entitiesInput.clearEntityForm) {
         this.$refs.entitiesInput.clearEntityForm();
       }
-
+      console.log(this.repositoryVersion, 'newevaluateexample');
+      
       try {
         await this.newEvaluateExample({
           repository: this.repository.uuid,
+          repositoryVersion: this.repositoryVersion,
           ...this.data,
         });
         this.text = '';
