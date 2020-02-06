@@ -77,7 +77,7 @@ export default {
       { repository_version: repositoryVersion },
     );
   },
-  analyze(repositoryUUID, repositoryVersion ,language, text) {
+  analyze(repositoryUUID, repositoryVersion, language, text) {
     return request.$http.post(
       `/v2/repository/repository-info/${repositoryUUID}/analyze/`,
       {

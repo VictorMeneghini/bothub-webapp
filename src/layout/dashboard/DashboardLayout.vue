@@ -156,11 +156,11 @@ export default {
     },
     handleVersion(id, name) {
       const version = {
-        id: id,
-        name: name
-      }
+        id,
+        name,
+      };
       this.setRepositoryVersion({
-        version
+        version,
       });
     },
   },

@@ -6,15 +6,19 @@
       ref="loginModal"
       :current-tab="loginModalTabValue" />
     <router-view />
+    <!--Component vuetour-->
+    <vue-tour />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import LoginModal from '@/components/shared/LoginModal';
+import VueTour from "@/components/VueTour.vue";
 
 const components = {
   LoginModal,
+  VueTour,
 };
 
 export default {
@@ -28,6 +32,7 @@ export default {
   },
   mounted() {
     this.safariDetected();
+    $tours['VueTour'].start();
   },
   methods: {
     safariDetected() {

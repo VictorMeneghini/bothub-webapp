@@ -48,7 +48,7 @@ export default {
     repositoryUUID, repositoryVersion, language, text,
   }) {
     /* istanbul ignore next */
-    return repository.analyze(repositoryUUID, repositoryVersion ,language, text);
+    return repository.analyze(repositoryUUID, repositoryVersion, language, text);
   },
   async getEditRepositorySchema(store, { repositoryUuid }) {
     /* istanbul ignore next */
@@ -145,7 +145,7 @@ export default {
   async setRepositoryRelatedUuid({ commit }, payload) {
     await commit(TYPES.SET_REPOSITORY_RELATED_UUID, payload);
   },
-  setRepositoryVersion({ commit }, payload) {         
+  setRepositoryVersion({ commit }, payload) {
     commit('setRepositoryVersion', payload);
   },
 };
